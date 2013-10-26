@@ -14,11 +14,11 @@ Victor leftVic2;
 Victor rightVic1;
 Victor leftVic2;
 Joystick speedStickX;
-Joystick speedStickY
+Joystick speedStickY;
 Joystick turnStickX;
 Joystick turnStickY
 Joystick operatorStickX;
-Joystick operatorStickY
+Joystick operatorStickY;
 
 public:
 MyRobot () :
@@ -39,7 +39,7 @@ MyRobot () :
   
 void HumanController(){
   
-  if (operatorStickX operatorStickX*)
+  if (operatorStickX* operatorStickX)
   leftVic1.Set(0.5);
   leftVic2.Set(0.5);
   rightVic1.Set(-0.5);
@@ -49,7 +49,7 @@ void HumanController(){
   leftVic2.Set(0);
   rightVic1.Set(0);
   rightVic2.Set(0);
-  if (operatorStickY operatorStickY*)
+  if (operatorStickY* operatorStickY)
   leftVic1.Set(-0.5);
   leftVic2.Set(-0.5);
   rightVic1.Set(0.5);
