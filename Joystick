@@ -5,7 +5,7 @@
 #define PORT_DRIVE_VIC_4 1
 #define PORT_JS_SPEED 1
 #define PORT_JS_TURN 2
-#define Port_JS_OPERATOR 3
+#define PORT_JS_OPERATOR 3
 
 
 class MyRobot : public IterativeRobot {
@@ -13,12 +13,10 @@ Victor leftVic1;
 Victor leftVic2;
 Victor rightVic1;
 Victor leftVic2;
-Joystick speedStickX;
-Joystick speedStickY;
-Joystick turnStickX;
-Joystick turnStickY
-Joystick operatorStickX;
-Joystick operatorStickY;
+Joystick speedStick;
+Joystick turnStick;
+Joystick operatorStick;
+Timer t;
 
 public:
 MyRobot () :
@@ -26,40 +24,46 @@ MyRobot () :
   leftVic2(PORT_DRIVE_VIC_2),
   rightVic1(PORT_DRIVE_VIC_3),
   rightVic2(PORT_DRIVE_VIC_4),
-  speedStickX(PORT_JS_SPEED),
-  speedStickY(Port_JS_SPEED),
-  turnStickX(PORT_JS_TURN),
-  turnStickY(PORT_JS_TURN),
-  operatorStickX(PORT_JS_OPERATOR)
-  operatorStickY(PORT_JS_OPERATOR)
+  speedStick(PORT_JS_SPEED),
+  turnStick(PORT_JS_TURN),
+  operatorStick(PORT_JS_OPERATOR),
 {
-
 
 }
   
-void HumanController(){
+
+void AutonoumousInit(){
+t.Start();
+}
+void AutonoumousPeriodic(){
   
-  if (operatorStickX* operatorStickX)
+  if(t.Get()<2.0){
   leftVic1.Set(0.5);
   leftVic2.Set(0.5);
   rightVic1.Set(-0.5);
   rightVic2.Set(-0.5);
-  Wait(2.0);
+  }
+  if(t.Get()<2.0){
+  leftVic1.Set(0.5);
+  leftVic2.Set(0.5);
+  rightVic1.Set(-0.5);
+  rightVic2.Set(-0.5);
+  }
+  if(t.Get()<4.0&&t.Get()>2.0){
   leftVic1.Set(0);
   leftVic2.Set(0);
   rightVic1.Set(0);
   rightVic2.Set(0);
-  if (operatorStickY* operatorStickY)
-  leftVic1.Set(-0.5);
-  leftVic2.Set(-0.5);
-  rightVic1.Set(0.5);
-  rightVic2.Set(0.5);
-  Wait(2.0);
-  leftVic1.Set(0);
-  leftVic2.Set(0);
-  rightVic1.Set(0);
-  rightVic2.Set(0);
+  }
+
 }
+void TeleopPeriodic(){
+  leftVic1.Set(-(speedStick.GetY()-turnStick.GetX()));
+  leftVic2.Set(-(speedStick.GetY()-turnStick.GetX()));
+  rightVic1.Set(speedStick.GetY()+turnStick.GetX());
+  rightVic2.Set(speedStick.GetY()+turnStick.GetX());
+  }
+
 };
   
   START_ROBOT_CLASS(MyRobot);
