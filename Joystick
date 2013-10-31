@@ -6,7 +6,15 @@
 #define PORT_JS_SPEED 1
 #define PORT_JS_TURN 2
 #define PORT_JS_OPERATOR 3
+#define PORT_SHOOTER_VIC_1 1
+#define PORT_SHOOTER_VIC_2 2
 
+enum ShooterState {
+  IDLE,
+  SPIN_UP,
+  EXTENDING,
+  RECEDING
+};
 
 class MyRobot : public IterativeRobot {
 Victor leftVic1;
@@ -17,6 +25,9 @@ Joystick speedStick;
 Joystick turnStick;
 Joystick operatorStick;
 Timer t;
+Victor shootVic1;
+Victor shootVIc2;
+ShooterState state;
 
 public:
 MyRobot () :
@@ -27,6 +38,7 @@ MyRobot () :
   speedStick(PORT_JS_SPEED),
   turnStick(PORT_JS_TURN),
   operatorStick(PORT_JS_OPERATOR),
+  state(IDLE)
 {
 
 }
@@ -62,8 +74,31 @@ void TeleopPeriodic(){
   leftVic2.Set(-(speedStick.GetY()-turnStick.GetX()));
   rightVic1.Set(speedStick.GetY()+turnStick.GetX());
   rightVic2.Set(speedStick.GetY()+turnStick.GetX());
-  }
 
+  if(operatorStick.GetTrigger() && state == IDLE) {
+    state = SPIN_UP;
+    // start motors
+    // start timer
+  }
+  else if(state == SPIN_UP){
+    // wait for timer
+    // start compressor
+    // reset & start timer
+    state = EXTENDING;
+  }
+  else if(state == EXTENDING){
+    // wait for timer
+    // stop compressor
+    // reset+start timer
+    state = RECEDING;
+  }
+  else if(state == RECEDING){
+    // wait for timer
+    // stop motors
+    // reset timer
+    state IDLE;
+  }
+}
 };
   
   START_ROBOT_CLASS(MyRobot);
