@@ -6,8 +6,8 @@
 #define PORT_JS_SPEED 1
 #define PORT_JS_TURN 2
 #define PORT_JS_OPERATOR 3
-#define PORT_SHOOTER_VIC_1 1
-#define PORT_SHOOTER_VIC_2 2
+#define PORT_SHOOTER_VIC_1 3
+#define PORT_SHOOTER_VIC_2 4
 
 enum ShooterState {
   IDLE,
